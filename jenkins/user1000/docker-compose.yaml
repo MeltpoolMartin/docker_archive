@@ -1,0 +1,13 @@
+version: "2"
+services:
+  jenkins:
+    image: jenkinsci/blueocean:latest
+    name: jenkins
+    user: 1000:1000
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+      - "50000:50000"
+    volumes:
+      - /volume1/docker/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
