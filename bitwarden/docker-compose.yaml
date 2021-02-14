@@ -1,0 +1,18 @@
+# Docker Compose for bitwarden
+
+version: '3'
+services:
+  bitwarden:
+    image: bitwardenrs/server
+    container_name: bitwarden
+    user: 1034:100 # docker_user:docker_group
+    restart: always
+    volumes:
+      - /volume1/docker/bitwarden:/data
+    ports:
+      - 9090:1024
+      - 3012:3012
+    environment:
+      ROCKET_PORT: '1024' # necessary for non-root running https://github.com/dani-garcia/bitwarden_rs/wiki/Running-docker-container-with-non-root-user
+      WEBSOCKET_ENABLED: 'false' # Required to use websockets
+      SIGNUPS_ALLOWED: 'false'   # set to false to disable signups
