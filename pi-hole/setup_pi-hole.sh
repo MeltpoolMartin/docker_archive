@@ -8,7 +8,7 @@
 
 docker run --detach \
            --name pi-hole \
-           --restart always \
+           --restart unless-stopped \
            --volume /etc/localtime:/etc/localtime:ro \
            --volume /volume1/docker/pi-hole/etc/hosts:/etc/hosts \
            --volume /volume1/docker/pi-hole/config:/etc/pihole \

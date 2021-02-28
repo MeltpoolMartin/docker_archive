@@ -6,7 +6,7 @@ services:
     image: bitwardenrs/server
     container_name: bitwarden
     user: 1034:100 # docker_user:docker_group
-    restart: always
+    restart: unless-stopped
     volumes:
       - /volume1/docker/bitwarden:/data
     ports:

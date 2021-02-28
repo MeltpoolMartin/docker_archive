@@ -4,6 +4,7 @@ services:
     image: jenkinsci/blueocean:latest
     name: jenkins
     user: 1000:1000
+    restart: unless-stopped
     ports:
       - "8080:8080"
       - "8443:8443"

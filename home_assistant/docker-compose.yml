@@ -4,10 +4,10 @@ services:
     image: homeassistant/home-assistant:stable
     container_name: home-assistant
     network_mode: host
+    restart: unless-stopped
     environment:
       - PUID=1034
       - PGID=100
       - TZ=Europe/Berlin
-    restart: always
     volumes:
       - /volume1/docker/home-assistant:/config

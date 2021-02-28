@@ -4,11 +4,11 @@ services:
     image: linuxserver/daapd:latest
     container_name: daapd
     network_mode: host
+    restart: unless-stopped
     environment:
       - PUID=1034
       - PGID=100
       - TZ=Europe/Berlin
-    restart: always
     volumes:
       - /volume1/docker/daapd/config:/config
       - /volume1/music:/music
