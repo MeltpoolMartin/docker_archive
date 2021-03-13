@@ -1,0 +1,19 @@
+# Docker Compose for Watchtower
+
+version: '2.1'
+services:
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    user: 1034:100 # docker_user:docker_group
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TZ=Europe/Berlin
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_DEBUG=true
+      - NO_COLOR=false
+      - WATCHTOWER_SCHEDULE=0 0 3 * * * # run once a day at 3 a.m.
+      # - WATCHTOWER_POLL_INTERVAL=86400 # seconds = 24 hours
+    command: portainer # update only listed containers
