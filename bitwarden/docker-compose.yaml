@@ -1,9 +1,9 @@
 # Docker Compose for bitwarden
 
-version: '3'
+version: '2.1'
 services:
   bitwarden:
-    image: bitwardenrs/server
+    image: bitwardenrs/server:latest
     container_name: bitwarden
     user: 1034:100 # docker_user:docker_group
     restart: unless-stopped

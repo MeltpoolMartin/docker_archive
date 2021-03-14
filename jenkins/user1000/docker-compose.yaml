@@ -2,7 +2,7 @@ version: "2"
 services:
   jenkins:
     image: jenkinsci/blueocean:latest
-    name: jenkins
+    container_name: jenkins
     user: 1000:1000
     restart: unless-stopped
     ports:
