@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   heimdall:
-    image: ghcr.io/linuxserver/heimdall
+    image: ghcr.io/linuxserver/heimdall:latest
     container_name: heimdall
     restart: unless-stopped
     environment:
