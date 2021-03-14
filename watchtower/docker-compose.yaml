@@ -16,4 +16,4 @@ services:
       - NO_COLOR=false
       - WATCHTOWER_SCHEDULE=0 0 3 * * * # run once a day at 3 a.m.
       # - WATCHTOWER_POLL_INTERVAL=86400 # seconds = 24 hours
-    command: watchtower portainer bitwarden pi-hole # update only listed containers
+    command: watchtower portainer bitwarden pi-hole jenkins heimdall # update only listed containers
