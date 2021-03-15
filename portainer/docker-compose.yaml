@@ -4,8 +4,7 @@ version: '2.1'
 services:
   portainer:
     image: portainer/portainer-ce:latest
-    container_name: portainer_v2
-    user: 1034:100 # docker_user:docker_group
+    container_name: portainer
     restart: unless-stopped
     ports:
       - "8000:8000"
