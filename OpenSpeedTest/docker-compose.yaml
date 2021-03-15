@@ -1,0 +1,11 @@
+# Docker Compose for OpenSpeedTest
+
+version: '3.0'
+services:
+  openspeedtest:
+    image: openspeedtest/latest
+    container_name: openspeedtest
+    user: 1034:100 # docker_user:docker_group
+    restart: unless-stopped
+    ports:
+      - "8181:8080"
