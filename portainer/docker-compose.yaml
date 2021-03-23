@@ -5,6 +5,7 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
+    user: 1034:100
     restart: unless-stopped
     ports:
       - "8000:8000"

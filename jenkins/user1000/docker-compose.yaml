@@ -3,7 +3,7 @@ services:
   jenkins:
     image: jenkins/jenkins:lts
     container_name: jenkins
-    user: 1000:1000
+    user: 1034:100
     restart: unless-stopped
     ports:
       - "8080:8080"
