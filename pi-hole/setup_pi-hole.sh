@@ -16,8 +16,8 @@ docker run --detach \
            --cap-add NET_ADMIN \
            --dns=1.0.0.1 \
            --dns=1.1.1.1 \
-           --env "DNS1=1.1.1.1" \
-           --env "DNS2=1.0.0.1" \
+           --env "DNS1=208.67.222.222" \
+           --env "DNS2=1.1.1.1" \
            --env "ServerIP=192.168.1.20" \
            --env "DNSMASQ_LISTENING=local" \
            --env "TZ=Europe/Berlin" \
