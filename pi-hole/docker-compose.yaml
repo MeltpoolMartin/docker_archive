@@ -1,0 +1,36 @@
+version: "2.1"
+
+services:
+  pihole:
+    container_name: pihole
+    hostname: pihole
+    domainname: localhost
+    image: pihole/pihole:latest
+    restart: unless-stopped
+    mac_address: 02:45:0b:00:02:07
+    networks:
+      macvlan_net:
+        ipv4_address: 192.168.1.20
+    environment:
+      TZ: Europe/Berlin
+      WEBPASSWORD: ""
+      DNSSEC: "true"
+      PIHOLE_DNS: 127.0.0.1;208.67.222.222;1.1.1.1 # localhost;OpenDNS,CloudFlare
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /volume1/docker/pi-hole/etc/hosts:/etc/hosts:rw
+      - /volume1/docker/pi-hole/config:/etc/pihole:rw
+      - /volume1/docker/pi-hole/dnsmasq:/etc/dnsmasq.d:rw
+
+networks:
+  macvlan_net:
+    driver: macvlan
+    driver_opts:
+      parent: ovs_eth0
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.10
+          ip_range: 192.168.1.20/30
+          aux_addresses:
+            host1: 192.168.1.21 # reserved host ip address for shim network
