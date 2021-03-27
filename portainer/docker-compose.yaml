@@ -5,8 +5,8 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
-    user: 1034:100
     restart: unless-stopped
+    dns: 192.168.1.20
     ports:
       - "8000:8000"
       - "9000:9000"

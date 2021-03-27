@@ -4,6 +4,7 @@ services:
     image: ghcr.io/linuxserver/heimdall:latest
     container_name: heimdall
     restart: unless-stopped
+    dns: 192.168.1.20
     environment:
       - PUID=1034
       - PGID=100
