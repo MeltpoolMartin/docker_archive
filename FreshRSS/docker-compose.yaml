@@ -3,6 +3,7 @@ services:
   freshrss:
     image: ghcr.io/linuxserver/freshrss
     container_name: freshrss
+    dns: 192.168.1.20
     environment:
       - PUID=1034
       - PGID=100
