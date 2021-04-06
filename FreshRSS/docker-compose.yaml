@@ -5,11 +5,11 @@ services:
     container_name: freshrss
     dns: 192.168.1.20
     environment:
-      - PUID=1034
-      - PGID=100
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/Berlin
     volumes:
-      - /volume1/docker/freshrss:/config
+      - /home/martin/appdata/freshrss:/config
     ports:
       - 808:80
     restart: unless-stopped
