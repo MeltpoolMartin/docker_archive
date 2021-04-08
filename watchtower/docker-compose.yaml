@@ -19,4 +19,4 @@ services:
       - WATCHTOWER_NOTIFICATIONS_LEVEL=info
       - WATCHTOWER_NOTIFICATIONS=shoutrrr
       - WATCHTOWER_NOTIFICATION_URL=telegram://${TOKEN}@telegram?channels=${USER_ID}
-    command: watchtower portainer bitwarden pihole heimdall openspeedtest home-assistant freshrss wireguard # update only listed containers
+    command: watchtower portainer bitwarden pihole heimdall librespeed home-assistant freshrss wireguard # update only listed containers
