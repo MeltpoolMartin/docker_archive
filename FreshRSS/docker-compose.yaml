@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   freshrss:
-    image: ghcr.io/linuxserver/freshrss
+    image: ghcr.io/linuxserver/freshrss:latest
     container_name: freshrss
     dns: 192.168.1.20
     environment:
