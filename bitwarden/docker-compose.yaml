@@ -5,11 +5,11 @@ services:
   bitwarden:
     image: bitwardenrs/server:latest
     container_name: bitwarden
-    user: 1000:1000
+    user: 997:997 # bitwarden:bitwarden user
     restart: unless-stopped
     dns: 192.168.1.20
     volumes:
-      - /home/martin/appdata/bitwarden:/data
+      - /etc/docker/bitwarden:/data
     ports:
       - 9090:1024
       - 3012:3012

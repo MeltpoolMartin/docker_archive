@@ -5,12 +5,18 @@ services:
     container_name: heimdall
     restart: unless-stopped
     dns: 192.168.1.20
+    networks:
+      - portainer_default
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=995
+      - PGID=995
       - TZ=Europe/Berlin
     volumes:
-      - /home/martin/appdata/heimdall/:/config
+      - /etc/docker/heimdall/:/config
     ports:
       - 800:80
-      - 4430:443
+      # - 4430:443 # needed for reverse proxy
+
+networks:
+  portainer_default: # API exchange in dashboard
+    external: true

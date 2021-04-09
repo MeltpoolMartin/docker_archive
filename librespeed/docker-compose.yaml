@@ -4,11 +4,11 @@ services:
     image: ghcr.io/linuxserver/librespeed:latest
     container_name: librespeed
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=994
+      - PGID=994
       - TZ=Europe/Berlin
     volumes:
-      - /home/martin/appdata/librespeed/config:/config
+      - /etc/docker/librespeed/config:/config
     ports:
       - 8181:80
     restart: unless-stopped

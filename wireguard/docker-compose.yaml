@@ -7,8 +7,8 @@ services:
       - NET_ADMIN
       - SYS_MODULE
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=991
+      - PGID=991
       - TZ=Europe/London
       - SERVERURL=${URL}
       - SERVERPORT=51820
@@ -17,7 +17,7 @@ services:
       - INTERNAL_SUBNET=10.13.13.0
       - ALLOWEDIPS=0.0.0.0/0
     volumes:
-      - /home/martin/appdata/wireguard-server/config:/config
+      - /etc/docker/wireguard-server/config:/config
       - /lib/modules:/lib/modules
     ports:
       - 51820:51820/udp

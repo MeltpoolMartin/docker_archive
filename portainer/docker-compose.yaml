@@ -5,11 +5,12 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
+    user: 992:998
     restart: unless-stopped
     dns: 192.168.1.20
     ports:
-      - "8000:8000"
+      # - "8000:8000"
       - "9000:9000"
     volumes:
-      - /home/martin/appdata/portainer:/data
+      - /etc/docker/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock

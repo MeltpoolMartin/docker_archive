@@ -18,9 +18,9 @@ services:
       PIHOLE_DNS: 127.0.0.1;208.67.222.222;1.1.1.1 # localhost;OpenDNS,CloudFlare
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /home/martin/appdata/pi-hole/etc/hosts:/etc/hosts:rw
-      - /home/martin/appdata/pi-hole/config:/etc/pihole:rw
-      - /home/martin/appdata/pi-hole/dnsmasq:/etc/dnsmasq.d:rw
+      - /etc/docker/pi-hole/etc/hosts:/etc/hosts:rw
+      - /etc/docker/pi-hole/config:/etc/pihole:rw
+      - /etc/docker/pi-hole/dnsmasq:/etc/dnsmasq.d:rw
 
 networks:
   macvlan_net:
