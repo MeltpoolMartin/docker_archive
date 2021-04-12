@@ -11,7 +11,7 @@ services:
     volumes:
       - /etc/docker/bitwarden:/data
     ports:
-      - 9090:1024
+      - 1024:1024
       - 3012:3012
     environment:
       ROCKET_PORT: '1024' # necessary for non-root running https://github.com/dani-garcia/bitwarden_rs/wiki/Running-docker-container-with-non-root-user
