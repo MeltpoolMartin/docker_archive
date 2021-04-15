@@ -5,7 +5,7 @@ services:
     container_name: pihole
     hostname: pihole
     domainname: localhost
-    image: pihole/pihole:latest
+    image: pihole/pihole@sha256:3a39992f3e0879a4705d87d0b059513af0749e6ea2579744653fe54ceae360a0
     restart: unless-stopped
     mac_address: 02:45:0b:00:02:07
     networks:
