@@ -17,11 +17,9 @@ services:
       DNSSEC: "true"
       PIHOLE_DNS: 127.0.0.1;208.67.222.222;1.1.1.1 # localhost;OpenDNS,CloudFlare
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/docker/pi-hole/etc/hosts:/etc/hosts:rw
-      - /etc/docker/pi-hole/config:/etc/pihole:rw
-      - /etc/docker/pi-hole/dnsmasq:/etc/dnsmasq.d:rw
-
+      # - nfs_volume_hosts:/etc/:rw
+      - nfs_volume_etc-pihole:/etc/pihole:rw
+      - nfs_volume_etc-dnsmasq:/etc/dnsmasq.d:rw
 networks:
   macvlan_net:
     driver: macvlan
@@ -34,3 +32,16 @@ networks:
           ip_range: 192.168.1.20/30
           aux_addresses:
             host1: 192.168.1.21 # reserved host ip address for shim network
+volumes:
+  nfs_volume_etc-pihole:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/pihole/etc-pihole"
+  nfs_volume_etc-dnsmasq:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/pihole/etc-dnsmasq"
