@@ -17,7 +17,7 @@ services:
       TZ: "Europe/Berlin"
       ROCKET_PORT: "1024" # necessary for non-root running https://github.com/dani-garcia/bitwarden_rs/wiki/Running-docker-container-with-non-root-user
       WEBSOCKET_ENABLED: "false" # Required to use websockets
-      SIGNUPS_ALLOWED: "true"   # set to false to disable signups
+      SIGNUPS_ALLOWED: "false"   # set to false to disable signups
 volumes:
   nfs_vaultwarden_data:
     driver: local
