@@ -1,0 +1,27 @@
+# Docker Compose for bitwarden
+
+version: '3.5'
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    user: 1034:65538 # docker_user:docker_group
+    restart: unless-stopped
+    dns: 192.168.1.20
+    volumes:
+      - nfs_vaultwarden_data:/data
+    ports:
+      - 1024:1024
+      - 3012:3012
+    environment:
+      TZ: "Europe/Berlin"
+      ROCKET_PORT: "1024" # necessary for non-root running https://github.com/dani-garcia/bitwarden_rs/wiki/Running-docker-container-with-non-root-user
+      WEBSOCKET_ENABLED: "false" # Required to use websockets
+      SIGNUPS_ALLOWED: "true"   # set to false to disable signups
+volumes:
+  nfs_vaultwarden_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/vaultwarden"
