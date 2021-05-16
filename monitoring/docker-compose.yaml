@@ -12,8 +12,8 @@ services:
         - --storage.tsdb.path=/prometheus
         - --storage.tsdb.retention.time=8d
     volumes:
-        - /etc/docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-        - prometheus_data:/prometheus
+        - /home/martin/dev/docker_archive/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        - nfs_volume_prometheus:/prometheus
     depends_on:
         - node_exporter
         - cadvisor
@@ -36,7 +36,8 @@ services:
         - --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)
     restart: unless-stopped
   cadvisor:
-    image: google/cadvisor:latest
+    image: budry/cadvisor-arm:latest
+    # image: google/cadvisor:latest
     container_name: cadvisor
     networks:
         - monitor_net
@@ -57,7 +58,7 @@ services:
     ports:
         - 3000:3000
     volumes:
-        - grafana_data:/var/lib/grafana
+        - nfs_volume_grafana:/var/lib/grafana
     depends_on:
         - prometheus
 
@@ -67,5 +68,15 @@ networks:
         driver: bridge
 
 volumes:
-    prometheus_data: {}
-    grafana_data: {}
+    nfs_volume_prometheus:
+        driver: local
+        driver_opts:
+            type: nfs
+            o: "nfsvers=4,addr=192.168.1.50,rw"
+            device: ":/volume1/docker/prometheus"
+    nfs_volume_grafana:
+        driver: local
+        driver_opts:
+            type: nfs
+            o: "nfsvers=4,addr=192.168.1.50,rw"
+            device: ":/volume1/docker/grafana"
