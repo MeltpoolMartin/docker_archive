@@ -5,12 +5,19 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
-    user: 992:998
     restart: unless-stopped
     dns: 192.168.1.20
     ports:
       # - "8000:8000"
       - "9000:9000"
     volumes:
-      - /etc/docker/portainer:/data
+      - nfs_volume:/data:rw
       - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  nfs_volume:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/portainer"
