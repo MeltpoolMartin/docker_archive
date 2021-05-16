@@ -5,7 +5,7 @@ services:
     container_name: pihole
     hostname: pihole
     domainname: localhost
-    image: pihole/pihole@sha256:3a39992f3e0879a4705d87d0b059513af0749e6ea2579744653fe54ceae360a0
+    image: pihole/pihole:latest
     restart: unless-stopped
     mac_address: 02:45:0b:00:02:07
     networks:
@@ -24,7 +24,7 @@ networks:
   macvlan_net:
     driver: macvlan
     driver_opts:
-      parent: ens3
+      parent: eth0
     ipam:
       config:
         - subnet: 192.168.1.0/24
@@ -38,10 +38,10 @@ volumes:
     driver_opts:
       type: nfs
       o: "nfsvers=4,addr=192.168.1.50,rw"
-      device: ":/volume1/docker/pihole/etc-pihole"
+      device: ":/volume1/docker/pi-hole/etc-pihole"
   nfs_volume_etc-dnsmasq:
     driver: local
     driver_opts:
       type: nfs
       o: "nfsvers=4,addr=192.168.1.50,rw"
-      device: ":/volume1/docker/pihole/etc-dnsmasq"
+      device: ":/volume1/docker/pi-hole/etc-dnsmasq"
