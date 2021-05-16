@@ -1,0 +1,45 @@
+version: "2.1"
+
+services:
+  pihole:
+    container_name: pihole_backup
+    hostname: pihole_backup
+    domainname: localhost
+    image: pihole/pihole:latest
+    restart: unless-stopped
+    mac_address: 02:45:0b:00:07:07
+    networks:
+      macvlan_net:
+        ipv4_address: 192.168.1.25
+    environment:
+      TZ: Europe/Berlin
+      WEBPASSWORD: ""
+      DNSSEC: "true"
+      PIHOLE_DNS: 127.0.0.1;208.67.222.222;1.1.1.1 # localhost;OpenDNS,CloudFlare
+    volumes:
+      # - nfs_volume_hosts:/etc/:rw
+      - nfs_volume_etc-pihole:/etc/pihole:rw
+      - nfs_volume_etc-dnsmasq:/etc/dnsmasq.d:rw
+networks:
+  macvlan_net:
+    driver: macvlan
+    driver_opts:
+      parent: ens3
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.10
+          ip_range: 192.168.1.25/32
+volumes:
+  nfs_volume_etc-pihole:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/pi-hole/etc-pihole"
+  nfs_volume_etc-dnsmasq:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/pi-hole/etc-dnsmasq"
