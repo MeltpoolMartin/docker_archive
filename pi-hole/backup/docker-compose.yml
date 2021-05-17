@@ -18,8 +18,8 @@ services:
       PIHOLE_DNS: 127.0.0.1;208.67.222.222;1.1.1.1 # localhost;OpenDNS,CloudFlare
     volumes:
       # - nfs_volume_hosts:/etc/:rw
-      - nfs_volume_etc-pihole:/etc/pihole:rw
-      - nfs_volume_etc-dnsmasq:/etc/dnsmasq.d:rw
+      - nfs_volume_etc-pihole_backup:/etc/pihole:rw
+      - nfs_volume_etc-dnsmasq_backup:/etc/dnsmasq.d:rw
 networks:
   macvlan_net:
     driver: macvlan
@@ -31,15 +31,15 @@ networks:
           gateway: 192.168.1.10
           ip_range: 192.168.1.25/32
 volumes:
-  nfs_volume_etc-pihole:
+  nfs_volume_etc-pihole_backup:
     driver: local
     driver_opts:
       type: nfs
       o: "nfsvers=4,addr=192.168.1.50,rw"
-      device: ":/volume1/docker/pi-hole/etc-pihole"
-  nfs_volume_etc-dnsmasq:
+      device: ":/volume1/docker/pi-hole_backup/etc-pihole"
+  nfs_volume_etc-dnsmasq_backup:
     driver: local
     driver_opts:
       type: nfs
       o: "nfsvers=4,addr=192.168.1.50,rw"
-      device: ":/volume1/docker/pi-hole/etc-dnsmasq"
+      device: ":/volume1/docker/pi-hole_backup/etc-dnsmasq"
