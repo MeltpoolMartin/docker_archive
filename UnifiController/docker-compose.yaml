@@ -6,13 +6,23 @@ services:
     dns: 192.168.1.20
     mac_address: 02:45:0b:00:02:09
     networks:
-      macvlan_net:
-        ipv4_address: 192.168.1.35
+      pi-hole_macvlan_net:
+        ipv4_address: 192.168.1.22
     environment:
       - PUID=1034
       - PGID=65538
       - MEM_LIMIT=1024M #optional
       - MEM_STARTUP=1024M #optional
+    ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 8443:8443
+      - 1900:1900/udp #optional
+      - 8843:8843 #optional
+      - 8880:8880 #optional
+      - 6789:6789 #optional
+      - 5514:5514/udp #optional
     volumes:
       - nfs_volume:/config
     restart: unless-stopped
@@ -20,18 +30,9 @@ volumes:
   nfs_volume:
     driver: local
     driver_opts:
-    type: nfs
-    o: "nfsvers=4,addr=192.168.1.50,rw"
-    device: ":/volume1/docker/unifi-controller"
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/unifi-controller"
 networks:
-  macvlan_net:
-    driver: macvlan
-    driver_opts:
-    parent: ens3
-    ipam:
-    config:
-      - subnet: 192.168.1.0/24
-        gateway: 192.168.1.10
-        ip_range: 192.168.1.35/30
-        aux_addresses:
-          host1: 192.168.1.36 # reserved host ip address for shim network
+  pi-hole_macvlan_net:
+    external: true
