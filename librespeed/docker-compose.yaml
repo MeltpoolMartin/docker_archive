@@ -8,7 +8,15 @@ services:
       - PGID=994
       - TZ=Europe/Berlin
     volumes:
-      - /etc/docker/librespeed/config:/config
+      - nfs_librespeed_data:/config
     ports:
       - 8181:80
     restart: unless-stopped
+
+volumes:
+  nfs_librespeed_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/librespeed"
