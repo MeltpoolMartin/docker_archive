@@ -5,12 +5,24 @@ services:
     container_name: heimdall
     restart: unless-stopped
     dns: 192.168.1.20
+    networks:
+      - portainer_default
     environment:
       - PUID=1034
-      - PGID=100
+      - PGID=65538
       - TZ=Europe/Berlin
     volumes:
-      - /volume1/docker/heimdall/:/config
+      - nfs_volume:/config
     ports:
       - 800:80
-      - 4430:443
+      # - 4430:443 # needed for reverse proxy
+networks:
+  portainer_default: # API exchange in dashboard
+    external: true
+volumes:
+  nfs_volume:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/heimdall"

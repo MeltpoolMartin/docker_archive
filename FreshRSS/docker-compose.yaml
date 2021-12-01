@@ -1,15 +1,22 @@
 version: "2.1"
 services:
   freshrss:
-    image: ghcr.io/linuxserver/freshrss
+    image: ghcr.io/linuxserver/freshrss:latest
     container_name: freshrss
     dns: 192.168.1.20
     environment:
       - PUID=1034
-      - PGID=100
+      - PGID=65538
       - TZ=Europe/Berlin
     volumes:
-      - /volume1/docker/freshrss:/config
+      - nfs_volume:/config
     ports:
       - 808:80
     restart: unless-stopped
+volumes:
+  nfs_volume:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: "nfsvers=4,addr=192.168.1.50,rw"
+      device: ":/volume1/docker/freshrss"

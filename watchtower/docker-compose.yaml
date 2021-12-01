@@ -5,7 +5,7 @@ services:
   watchtower:
     image: containrrr/watchtower:latest
     container_name: watchtower
-    user: 1034:100 # docker_user:docker_group
+    user: 1000:998 #martin:docker
     restart: unless-stopped
     dns: 192.168.1.20
     volumes:
@@ -19,4 +19,4 @@ services:
       - WATCHTOWER_NOTIFICATIONS_LEVEL=info
       - WATCHTOWER_NOTIFICATIONS=shoutrrr
       - WATCHTOWER_NOTIFICATION_URL=telegram://${TOKEN}@telegram?channels=${USER_ID}
-    command: watchtower portainer bitwarden pihole jenkins heimdall openspeedtest home-assistant freshrss # update only listed containers
+    command: watchtower portainer vaultwarden pihole heimdall librespeed home-assistant freshrss wireguard # update only listed containers
