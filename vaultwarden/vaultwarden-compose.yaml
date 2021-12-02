@@ -5,16 +5,15 @@ services:
   vaultwarden:
     image: vaultwarden/server:latest
     container_name: vaultwarden
-    user: 1034:65538 # docker_user:docker_group
+    user: #{UID}:#{GID}
     restart: unless-stopped
-    dns: 192.168.1.20
+    dns: #{DNS_SERVER}
     volumes:
       - nfs_vaultwarden_data:/data
     ports:
       - 1024:1024
-      - 3012:3012
     environment:
-      TZ: "Europe/Berlin"
+      TZ: "#{TZ}"
       ROCKET_PORT: "1024" # necessary for non-root running https://github.com/dani-garcia/bitwarden_rs/wiki/Running-docker-container-with-non-root-user
       WEBSOCKET_ENABLED: "false" # Required to use websockets
       SIGNUPS_ALLOWED: "false"   # set to false to disable signups
