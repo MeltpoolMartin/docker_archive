@@ -1,30 +1,31 @@
-version: "2.2"
+---
 services:
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     networks:
-        - monitor_net
+        - monitoring-net
     ports:
         - 9090:9090
     command:
         - --config.file=/etc/prometheus/prometheus.yml
-        - --storage.tsdb.path=/prometheus
-        - --storage.tsdb.retention.time=8d
+        - --storage.tsdb.retention.time=${RETENTION_TIME:-8d}
     volumes:
-        - /home/martin/dev/docker_archive/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-        - nfs_volume_prometheus:/prometheus
+        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        - prometheus-data:/prometheus
     depends_on:
-        - node_exporter
+        #- node_exporter
         - cadvisor
     restart: unless-stopped
-  node_exporter:
+
+  node-exporter:
     image: prom/node-exporter:latest
-    container_name: node_exporter
+    container_name: node-exporter
+    #ports:
+        #- 9100:9100
     networks:
-        - monitor_net
-    ports:
-        - 9100:9100
+        - monitoring-net
     volumes:
         - /proc:/host/proc:ro
         - /sys:/host/sys:ro
@@ -35,48 +36,45 @@ services:
         - --path.sysfs=/host/sys
         - --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)
     restart: unless-stopped
+
   cadvisor:
-    image: budry/cadvisor-arm:latest
-    # image: google/cadvisor:latest
+    # image: budry/cadvisor-arm:latest
+    image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
+    #ports:
+        #- 8080:8080
     networks:
-        - monitor_net
-    ports:
-        - 8080:8080
+        - monitoring-net
     volumes:
         - /:/rootfs:ro
-        - /var/run:/var/run:rw
+        #- /var/run:/var/run:ro # Does not work for docker desktop on OSX
+        - /var/run/docker.sock:/var/run/docker.sock:ro # Workaround for OSX
         - /sys:/sys:ro
         - /var/lib/docker/:/var/lib/docker:ro
+        - /dev/disk/:/dev/disk:ro
+    devices:
+        - /dev/kmsg
     restart: unless-stopped
+
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
-    user: 1000:1000
+    user: ${UID:-1000}:${GID:-1000}
     networks:
-        - monitor_net
+        - monitoring-net
     ports:
         - 3000:3000
     volumes:
-        - nfs_volume_grafana:/var/lib/grafana
+        - grafana-data:/var/lib/grafana
     depends_on:
         - prometheus
 
-
 networks:
-    monitor_net:
+    monitoring-net:
         driver: bridge
 
 volumes:
-    nfs_volume_prometheus:
+    prometheus-data:
         driver: local
-        driver_opts:
-            type: nfs
-            o: "nfsvers=4,addr=192.168.1.50,rw"
-            device: ":/volume1/docker/prometheus"
-    nfs_volume_grafana:
+    grafana-data:
         driver: local
-        driver_opts:
-            type: nfs
-            o: "nfsvers=4,addr=192.168.1.50,rw"
-            device: ":/volume1/docker/grafana"
