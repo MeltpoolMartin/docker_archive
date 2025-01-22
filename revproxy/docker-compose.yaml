@@ -6,8 +6,8 @@ services:
     container_name: revproxy
     restart: unless-stopped
     volumes:
-      - nfs_revproxy_data:/data
-      - ./revproxy_letsencrypt:/etc/letsencrypt
+      - revproxy_data:/data
+      - revproxy_letsencrypt:/etc/letsencrypt
     ports:
       - 80:80
       - 81:81
@@ -15,11 +15,8 @@ services:
     environment:
       - DB_SQLITE_FILE=/data/database.sqlite
 
-
 volumes:
-  nfs_revproxy_data:
+  revproxy_data:
     driver: local
-    driver_opts:
-      type: nfs
-      o: "nfsvers=4,addr=192.168.1.50,rw"
-      device: ":/volume1/docker/revproxy/data"
+  revproxy_letsencrypt:
+    driver: local
