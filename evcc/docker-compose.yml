@@ -10,20 +10,7 @@ services:
       - 7090:7090/udp
       - 9522:9522/udp
     volumes:
-      - ./evcc.yaml:/etc/evcc.yaml
-      - nfs_evcc_db:/root/.evcc
+      - ./data/config/evcc.yaml:/etc/evcc.yaml
+      - ./data/db:/root/.evcc
     restart: unless-stopped
 
-volumes:
-  nfs_evcc_db:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: "nfsvers=4,addr=192.168.1.50,rw"
-      device: ":/volume1/docker/evcc/evcc"
-  nfs_evcc_config:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: "nfsvers=4,addr=192.168.1.50,r"
-      device: ":/volume1/docker/evcc/config"
