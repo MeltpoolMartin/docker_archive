@@ -1,11 +1,11 @@
-version: '2'
 services:
   homebridge:
     image: oznu/homebridge:latest
-    restart: always
+    container_name: homebridge
+    restart: unless-stopped
     network_mode: host
     volumes:
-      - nfs_homebridge_data:/homebridge
+      - ./data/homebridge:/homebridge
     environment:
       TZ: "Europe/Berlin"
     logging:
@@ -14,10 +14,3 @@ services:
         max-size: "10mb"
         max-file: "1"
 
-volumes:
-  nfs_homebridge_data:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: "nfsvers=4,addr=192.168.1.50,rw"
-      device: ":/volume1/docker/homebridge"
