@@ -1,5 +1,10 @@
 ## NFS share setup
 
+Install NFS client tools
+``` bash
+sudo apt install nfs-common
+```
+
 Create mount point on client side
 ``` bash
 sudo mkdir -p /nfs/paperless
@@ -35,3 +40,25 @@ rsync -avz --progress paperless-ngx_db*.tar.gz nas:/volume1/docker/backup/paperl
 ``` bash
 rsync -avz --progress paperless-ngx_data_*.tar.gz nas:/volume1/docker/backup/paperless-ngx/
 ```
+
+## Restore data
+
+Pull tarballs from backup server. Assuming 'nas' is the SSH config entry with all the details.
+
+``` bash
+rsync -chavzP --stats nas:/volume1/docker/backup/paperless-ngx/ .
+```
+
+Create directories for local bind mounts
+
+``` bash
+mkdir -p data/db data/redis data/data
+```
+
+Populate local bind mounts with backup data. Example shows how to do it for db backup data.
+Repeat for other bind mounts accordingly.
+
+``` bash
+tar -xzvf <path-to-db-tarball> -C data/db .
+```
+
