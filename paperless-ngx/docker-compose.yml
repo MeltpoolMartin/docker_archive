@@ -3,13 +3,13 @@ services:
     image: docker.io/library/redis:7
     restart: unless-stopped
     volumes:
-      - paperless-redis:/data
+      - ./data/redis:/data
 
   db:
     image: docker.io/library/postgres:13
     restart: unless-stopped
     volumes:
-      - paperless-db:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: paperless
       POSTGRES_USER: paperless
@@ -31,7 +31,7 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - data:/usr/src/paperless/data
+      - .data/data:/usr/src/paperless/data
       - /nfs/paperless/media:/usr/src/paperless/media
       - /nfs/paperless/export:/usr/src/paperless/export
       - /nfs/paperless/consume:/usr/src/paperless/consume
@@ -61,12 +61,3 @@ services:
     image: ghcr.io/paperless-ngx/tika:latest
     restart: unless-stopped
 
-volumes:
-  data:
-    driver: local
-
-  paperless-redis:
-    driver: local
-
-  paperless-db:
-    driver: local
