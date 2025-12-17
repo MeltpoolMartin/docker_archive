@@ -31,7 +31,7 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - .data/data:/usr/src/paperless/data
+      - ./data/data:/usr/src/paperless/data
       - /nfs/paperless/media:/usr/src/paperless/media
       - /nfs/paperless/export:/usr/src/paperless/export
       - /nfs/paperless/consume:/usr/src/paperless/consume
